@@ -1,0 +1,8 @@
+sklearn
+numpy
+nltk
+fuzzywuzzy
+python-Levenshtein
+requests
+word2number
+inflect
