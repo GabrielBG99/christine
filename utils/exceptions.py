@@ -16,3 +16,11 @@ class ActionNotFound(Exception):
 
     def __str__(self):
         return f'The action for "{self.activator}" was not found'
+
+
+class InvalidCommand(Exception):
+    def __init__(self, command:str):
+        self.command = command
+
+    def __str__(self):
+        return f'No command named "{self.command}" was found'

@@ -6,3 +6,4 @@ python-Levenshtein
 requests
 word2number
 inflect
+names
