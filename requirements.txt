@@ -7,3 +7,5 @@ requests
 word2number
 inflect
 names
+pyaudio
+vosk

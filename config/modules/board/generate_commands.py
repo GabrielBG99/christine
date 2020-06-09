@@ -35,11 +35,14 @@ CONFIG = {
 
 def __add_action_config(pin: str) -> str:
     config = random.choice(['', 'pwm', 'analog', 'digital'])
-    config = f'as {config}' if config else ''
+    config = f'in mode {config}' if config else ''
     name = random.choice(
         [names.get_last_name, names.get_full_name, lambda: '']
     )()
-    name = f'{random.choice(["with name", "named"])} {name}' if name else ''
+    name = (
+        f'{random.choice(["with name", "named", "as"])}'
+        f' {name}'
+    ) if name else ''
     value = ''
     if config:
         if config in ['analog', 'pwm']:

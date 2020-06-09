@@ -131,3 +131,4 @@ dmypy.json
 
 # Local dependencies
 .vscode/
+*/kaldi_model/*

@@ -25,18 +25,34 @@ def _get_pin(phrase: str, command: str) -> Dict[str, Any]:
 
 
 def _action_add(phrase: str) -> Dict[str, Any]:
+    params_label = ['as', 'value', 'name', 'mode']
     words = phrase.split()
     name = None
     porter = PorterStemmer()
     for i, word in enumerate(words[:]):
-        if porter.stem(word) == 'name':
-            name = words[i + 1]
+        if porter.stem(word) in ['name', 'as']:
+            idx = 99999999999999999999
+            for label in params_label:
+                if label in words[i + 1:]:
+                    curr_idx = words[i + 1:].index(label) + i + 1
+                    if curr_idx < idx:
+                        idx = curr_idx
+            if idx > len(words):
+                name = ' '.join([
+                    w for w in words[i + 1:] \
+                        if porter.stem(w) not in stopwords.words('english')
+                ])
+            else:
+                name = ' '.join([
+                    w for w in words[i + 1:idx] \
+                        if porter.stem(w) not in stopwords.words('english')
+                ])
             break
     action = _get_pin(command='add', phrase=phrase)
     action.update({
         'name': name,
         'value': _get_value(words=words, target='value') or None,
-        'config': _get_value(words=words, target='as') or None,
+        'config': _get_value(words=words, target='mode') or None,
     })
     return action
 
@@ -85,7 +101,8 @@ def _action_turn(phrase: str) -> Dict[str, Any]:
     }
 
 
-def process_input(text: str) -> Dict[str, Any]:
+def control(text: List[str]) -> Dict[str, Any]:
+    text = ' '.join(text)
     w2n = Word2Number()
     text_parsed = w2n.parse(text)
     command = text_parsed.split()[0]

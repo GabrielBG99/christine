@@ -62,7 +62,24 @@ def process(text:str):
 
 
 if __name__ == '__main__':
-    response = process(
-        text='search glados
+    from utils.vosk import Chris
+
+    def callback(resp):
+        resp = json.loads(resp)['text']
+        if (
+            not resp or
+            not resp.startswith('chris') or 
+            not resp.startswith('christine')
+        ):
+            return
+        print(process(text=' '.join(resp.split()[1:])))
+
+    mouth = Chris(
+        model_path=os.path.join(os.getcwd(), 'config', 'kaldi_model'),
+        callback=callback
     )
-    print(response)
+    mouth.listen()
+    # response = process(
+    #     text='control add pin nine with value one hundred in mode pwm'
+    # )
+    # print(response)
