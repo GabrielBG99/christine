@@ -2,7 +2,7 @@ from typing import List, Dict, Any
 from nltk.stem import PorterStemmer
 from nltk.corpus import stopwords
 from utils.w2n import Word2Number
-from utils.exceptions import InvalidCommand
+from utils.exceptions import InvalidCommandException
 
 
 VALID_COMMANDS = ['delete', 'add', 'set', 'turn']
@@ -14,7 +14,6 @@ def _get_value(words: List[str], target: str) -> str:
     except ValueError:
         return ''
 
-
 def _get_pin(phrase: str, command: str) -> Dict[str, Any]:
     words = phrase.split()
     pin = words[words.index('pin') + 1]
@@ -22,7 +21,6 @@ def _get_pin(phrase: str, command: str) -> Dict[str, Any]:
         'command': command,
         'pin': pin,
     }
-
 
 def _action_add(phrase: str) -> Dict[str, Any]:
     params_label = ['as', 'value', 'name', 'mode']
@@ -56,7 +54,6 @@ def _action_add(phrase: str) -> Dict[str, Any]:
     })
     return action
 
-
 def _action_set(phrase: str) -> Dict[str, Any]:
     words = phrase.split()
     if 'pin' in words:
@@ -77,7 +74,6 @@ def _action_set(phrase: str) -> Dict[str, Any]:
         'pin': pin,
         'value': _get_value(words=words, target='to'),
     }
-
 
 def _action_turn(phrase: str) -> Dict[str, Any]:
     words = phrase.split()
@@ -100,15 +96,14 @@ def _action_turn(phrase: str) -> Dict[str, Any]:
         'value': True if 'on' in words else False
     }
 
-
-def control(text: List[str]) -> Dict[str, Any]:
+def process(text: List[str]) -> Dict[str, Any]:
     text = ' '.join(text)
     w2n = Word2Number()
     text_parsed = w2n.parse(text)
     command = text_parsed.split()[0]
     
     if command not in VALID_COMMANDS:
-        raise InvalidCommand(command=command) 
+        raise InvalidCommandException(command=command) 
 
     return {
         'add': lambda: _action_add(phrase=text_parsed),

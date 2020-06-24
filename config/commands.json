@@ -1,5 +1,21 @@
 {
-  "greeting": ["hey", "hello", "hi"],
-  "search": ["search"],
-  "board": ["control"]
+  "greeting": {
+    "activators": ["hey", "hello", "hi"],
+    "default": [
+      "Hello, may I help you?",
+      "Hi! What do you need?"
+    ]
+  },
+  "doc": {
+    "activators": ["docs", "documentation", "info", "information"],
+    "default": []
+  },
+  "search": {
+    "activators": ["search"],
+    "default": ["What do you want to know?"]
+  },
+  "board": {
+    "activators": ["control"],
+    "default": ["What can I do for you?"]
+  }
 }
