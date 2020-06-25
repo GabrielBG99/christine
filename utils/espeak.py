@@ -1,24 +1,21 @@
 import subprocess, re, os
-from typing import List, Dict, NoReturn, AnyStr
+from typing import List, Dict, NoReturn
 
 
 class Espeak:
     def __init__(
             self, 
             amplitude:int=100, 
-            device:AnyStr=None, 
+            device:str=None, 
             voice:str='en', 
             speed:int=175, 
             pitch:int=50
         ):
-        
         if not os.path.exists(os.path.join('/', 'usr', 'bin', 'espeak-ng')):
             raise RuntimeError('espeak-ng not found')
         
-        assert (
-            amplitude >= 0 and amplitude <= 200,
+        assert amplitude >= 0 and amplitude <= 200, \
             'Amplitude must be between 0 and 200'
-        )
         
         assert pitch >= 0 and pitch <= 99, 'Pitch must be between 0 and 99'
         
@@ -28,8 +25,7 @@ class Espeak:
         self.speed = speed
         self.pitch = pitch
     
-    
-    def get_command(self, phrase:AnyStr) -> List[AnyStr]:
+    def get_command(self, phrase:str) -> List[str]:
         return [
             'espeak-ng',
             '-a',
@@ -45,15 +41,18 @@ class Espeak:
             phrase
         ]
 
-    
-    def say(self, phrase:AnyStr, sync:bool=False) -> NoReturn:
-        if sync:
-            subprocess.run(args=self.get_command(phrase=phrase))
-        else:
-            subprocess.Popen(args=self.get_command(phrase=phrase))
+    def say(self, phrase:str) -> NoReturn:
+        subprocess.run(args=self.get_command(phrase=phrase))
+
+    def read_file(self, text_file:str) -> NoReturn:
+        if not os.path.exists(text_file):
+            raise FileNotFoundError
+
+        arguments = ['espeak-ng', '-f', text_file]
+        subprocess.run(args=arguments)
 
     @staticmethod
-    def voices() -> List[Dict[AnyStr, AnyStr]]:
+    def voices() -> List[Dict[str, str]]:
         output = subprocess.run(
             args=['espeak-ng', '--voices'],
             capture_output=True
@@ -81,24 +80,12 @@ class Espeak:
             }
             if line_dict:
                 _voices.append(line_dict)
-        
-        return _voices
-    
-    
-    def read_file(self, text_file:AnyStr, sync:bool=False) -> NoReturn:
-        if not os.path.exists(text_file):
-            raise FileNotFoundError
 
-        arguments = [
-            'espeak-ng',
-            '-f',
-            text_file
-        ]
-        if sync:
-            subprocess.run(args=arguments)
-        else:
-            subprocess.Popen(args=arguments)
+        return _voices
 
 
 if __name__ == '__main__':
-    Espeak().say('Hello, and, again, welcome to the Aperture Science Computer-aided Enrichment Center')
+    Espeak().say(
+        'Hello, and, again, welcome to the Aperture Science '
+        'Computer-aided Enrichment Center'
+    )

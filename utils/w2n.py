@@ -13,12 +13,10 @@ class Word2Number:
         'ninth': 9, 
         'twelfth': 12
     }
-
     ordinal_endings = [
         ('ieth', 'y'), 
         ('th', '')
     ]
-    
     scales = [
         'hundred', 
         'thousand', 
@@ -26,7 +24,6 @@ class Word2Number:
         'billion', 
         'trillion'
     ]
-
     units = [
         'zero', 
         'one',
@@ -49,7 +46,6 @@ class Word2Number:
         'eighteen',
         'nineteen',
     ]
-
     tens = [
         '', 
         '', 
@@ -64,9 +60,9 @@ class Word2Number:
     ]
 
     def __init__(self):
-        self.numwords = self.get_numwords()
+        self.numwords = self.__get_numwords()
 
-    def get_numwords(self) -> Dict[str, Tuple[int, int]]:
+    def __get_numwords(self) -> Dict[str, Tuple[int, int]]:
         numwords = {
             'and': (1, 0)
         }
@@ -80,7 +76,6 @@ class Word2Number:
         
         return numwords
 
-
     def __is_numword(self, x: Any) -> bool:
         if Word2Number.is_number(x):
             return True
@@ -88,14 +83,12 @@ class Word2Number:
             return True
         return False
 
-
     def __from_numword(self, x: str) -> Tuple[int, int]:
         if Word2Number.is_number(x):
             scale = 0
             increment = int(x.replace(',', ''))
             return scale, increment
         return self.numwords[x]
-
 
     def parse(self, textnum: str) -> str:
         textnum = textnum.replace('-', ' ')
