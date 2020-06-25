@@ -96,7 +96,7 @@ def _action_turn(phrase: str) -> Dict[str, Any]:
         'value': True if 'on' in words else False
     }
 
-def process(text: List[str]) -> Dict[str, Any]:
+def process(params: List[str], **kwargs) -> Dict[str, Any]:
     text = ' '.join(text)
     w2n = Word2Number()
     text_parsed = w2n.parse(text)

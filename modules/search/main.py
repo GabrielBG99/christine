@@ -4,8 +4,8 @@ from typing import Dict, List
 from .exceptions import RequestError, NoResposeFoundException
 
 
-def process(text:List[str]) -> Dict[str, str]:
-    text = ' '.join(text)
+def process(params:List[str], **kwargs) -> Dict[str, str]:
+    text = ' '.join(params)
     response = requests.get(
         url='https://api.duckduckgo.com/',
         params={'q': text, 'format': 'json'}

@@ -9,15 +9,15 @@ from utils.exceptions import (
 
 
 class Process:
-    def __init__(self, text:str, *, config_path:str = None):
+    def __init__(self, text:str, *, config_path:str=None):
         self.text = text
         self.config_path = config_path or os.getenv(
             'CONFIG_PATH',
             os.path.join(os.path.dirname(os.path.abspath(__file__)), 'config')
         )
-        self.config = self.get_config()
+        self.config = self._get_config()
 
-    def get_config(self) -> Dict[str, Any]:
+    def _get_config(self) -> Dict[str, Any]:
         path = os.path.join(self.config_path, 'commands.json')
         
         with open(path, 'rb') as f:
@@ -47,17 +47,18 @@ class Process:
                 return module, configs['default']
 
         raise ActionNotFoundException(activator=activator)
-    
+
     def process(self) -> Generator:
         activator, params = self._parse_user_input(text=self.text)
         module, default_messages = self._get_module(activator=activator)
-        
+
         if not params and default_messages:
             text = yield {'alert': random.choice(default_messages)}
             params = self._parse_user_input(text, only_params=True)
-        
+
         module_process = self._get_process_method(module=module)
-        yield {'result': module_process(params)}
+
+        yield {'result': module_process(params=params, config=self.config)}
 
 
 if __name__ == '__main__':
@@ -69,3 +70,4 @@ if __name__ == '__main__':
     p = next(_process)
     if 'alert' in p:
         p = _process.send('glados')
+    print(p)
