@@ -3,11 +3,18 @@ from typing import Dict, Any
 
 def process(**kwargs) -> Dict[str, Any]:
     config = kwargs['config']
-    
-    return {
-        'modules': list(config.keys()),
-        'activators': {m: a['activators'] for m, a in config.items()}
-    }
+
+    doc = {}
+    for module, option in config.items():
+        activators = '", "'.join(option['activators'][:-1])
+        
+        if activators:
+            activators = '" or "'.join([activators, option['activators'][-1]])
+        else: activators = option['activators'][-1]
+        
+        doc[module] = f'{option["description"]}. To activate say "{activators}"'
+
+    return doc
 
 
 if __name__ == "__main__":
