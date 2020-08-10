@@ -1,23 +1,23 @@
-from attr import attrs, attrib
+from dataclasses import dataclass
 
 
-@attrs
+@dataclass
 class ActionNotFoundException(Exception):
-    activator = attrib(type=str)
+    activator: str
 
     def __str__(self):
         return f'The action for "{self.activator}" was not found'
 
-@attrs
+@dataclass
 class ModuleNotConfiguredException(Exception):
-    name = attrib(type=str)
+    name: str
 
     def __str__(self):
         return f'No module named "{self.name}" was found'
 
-@attrs
+@dataclass
 class InvalidCommandException(Exception):
-    command = attrib(type=str)
+    command: str
 
     def __str__(self):
         return f'No command named "{self.command}" was found'

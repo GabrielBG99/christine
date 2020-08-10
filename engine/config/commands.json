@@ -2,7 +2,7 @@
   "greeting": {
     "description": "Gives a greeting",
     "activators": ["hey", "hello", "hi"],
-    "default": ["Hello, may I help you?", "Hi! What do you need?"]
+    "default": []
   },
   "doc": {
     "description": "Describe all modules",

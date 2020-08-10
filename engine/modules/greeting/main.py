@@ -3,8 +3,8 @@ from typing import Dict, Any
 
 
 def process(**kwargs) -> Dict[str, Any]:
-    config = kwargs['config']['greeting']
-    return {'speak': random.choice(config['default'])}
+    greetings = ['Hello, may I help you?', 'Hi! What do you need?']
+    return {'speak': random.choice(greetings)}
 
 
 if __name__ == "__main__":
@@ -14,6 +14,5 @@ if __name__ == "__main__":
         'config', 
         'commands.json'
     )
-    with open(path, 'rb') as f:
-        config = json.load(f)
+    with open(path, 'rb') as f: config = json.load(f)
     process(config=config)

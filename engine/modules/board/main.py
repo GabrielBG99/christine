@@ -1,8 +1,8 @@
 from typing import List, Dict, Any
 from nltk.stem import PorterStemmer
 from nltk.corpus import stopwords
-from utils.w2n import Word2Number
-from utils.exceptions import InvalidCommandException
+from ...utils.w2n import Word2Number
+from ...utils.exceptions import InvalidCommandException
 
 
 VALID_COMMANDS = ['delete', 'add', 'set', 'turn']
@@ -97,7 +97,7 @@ def _action_turn(phrase: str) -> Dict[str, Any]:
     }
 
 def process(params: List[str], **kwargs) -> Dict[str, Any]:
-    text = ' '.join(text)
+    text = ' '.join(params)
     w2n = Word2Number()
     text_parsed = w2n.parse(text)
     command = text_parsed.split()[0]

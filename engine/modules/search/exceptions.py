@@ -1,16 +1,16 @@
-from attr import attrs, attrib
+from dataclasses import dataclass
 
 
-@attrs
+@dataclass
 class RequestError(Exception):
-    http_status = attrib()
+    http_status: int
     
     def __str__(self):
         return f'The server returned a {self.http_status} code'
 
-@attrs
+@dataclass
 class NoResposeFoundException(Exception):
-    keyword = attrib()
+    keyword: str
 
     def __str__(self):
         return f'Nothing found for "{self.keyword}"'
