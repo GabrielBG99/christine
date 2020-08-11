@@ -1,7 +1,7 @@
 import requests
 from typing import Dict, List
 
-from .exceptions import RequestError, NoResposeFoundException
+from .exceptions import RequestError, NoResposeFound
 
 
 def process(params:List[str], **kwargs) -> Dict[str, str]:
@@ -17,7 +17,7 @@ def process(params:List[str], **kwargs) -> Dict[str, str]:
     response = response.json()
 
     if not response['AbstractText']:
-        raise NoResposeFoundException(keyword=text)
+        raise NoResposeFound(keyword=text)
 
     return {
         'text': response['AbstractText'],

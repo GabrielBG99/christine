@@ -2,7 +2,7 @@ from typing import List, Dict, Any
 from nltk.stem import PorterStemmer
 from nltk.corpus import stopwords
 from ...utils.w2n import Word2Number
-from ...utils.exceptions import InvalidCommandException
+from ...utils.exceptions import InvalidCommand
 
 
 VALID_COMMANDS = ['delete', 'add', 'set', 'turn']
@@ -103,7 +103,7 @@ def process(params: List[str], **kwargs) -> Dict[str, Any]:
     command = text_parsed.split()[0]
     
     if command not in VALID_COMMANDS:
-        raise InvalidCommandException(command=command) 
+        raise InvalidCommand(command=command) 
 
     return {
         'add': lambda: _action_add(phrase=text_parsed),

@@ -9,7 +9,7 @@ class RequestError(Exception):
         return f'The server returned a {self.http_status} code'
 
 @dataclass
-class NoResposeFoundException(Exception):
+class NoResposeFound(Exception):
     keyword: str
 
     def __str__(self):

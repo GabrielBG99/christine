@@ -1,15 +1,12 @@
 from .process import Process
-from .utils.espeak import Espeak
 
 
 class Bot:
     def __init__(self):
         self.__brain = Process()
-        self.__mouth = Espeak()
 
     def say(self, phrase: str):
         print(phrase)
-        self.__mouth.say(phrase=phrase)
 
     def request_command(self, text: str='Enter a command:'):
         self.say(phrase=text)
