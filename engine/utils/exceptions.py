@@ -2,21 +2,21 @@ from dataclasses import dataclass
 
 
 @dataclass
-class ActionNotFoundException(Exception):
+class ActionNotFound(Exception):
     activator: str
 
     def __str__(self):
         return f'The action for "{self.activator}" was not found'
 
 @dataclass
-class ModuleNotConfiguredException(Exception):
+class ModuleNotConfigured(Exception):
     name: str
 
     def __str__(self):
         return f'No module named "{self.name}" was found'
 
 @dataclass
-class InvalidCommandException(Exception):
+class InvalidCommand(Exception):
     command: str
 
     def __str__(self):
